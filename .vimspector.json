@@ -1,0 +1,22 @@
+{
+	"configurations": {
+		"launch": {
+			"adapter": "CodeLLDB",
+			"configuration": {
+				"request": "launch",
+				"program": "${workspaceRoot}/target/debug/vimspector_test"
+			}
+		}
+	}
+}
+{
+	"configurations": {
+		"launch": {
+			"adapter": "CodeLLDB",
+			"configuration": {
+				"request": "launch",
+				"program": "${workspaceRoot}/target/debug/vimspector_test"
+			}
+		}
+	}
+}
