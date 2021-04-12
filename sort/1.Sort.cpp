@@ -14,7 +14,7 @@ void Insertion_Sort_1(vector<int> & nums, int n){
 	}
 }
 
-void Insertion_Sort_2(vector<int> & nums, int n){
+void Straight_Insertion_Sort(vector<int> & nums, int n){
 	for(int i = 0; i < n; ++i){
 		int X = nums[i];
 		int j = i-1;
@@ -50,6 +50,21 @@ void Binary_Insertion_Sort(vector<int> & nums, int n){
 	}
 }
 
+void Shell_Sort(vector<int> & nums, int n){
+	int h = 1;
+	while(h < n/3){
+		h = h * 3 + 1; // 1, 4, 13, 40, ...
+	}
+	while(h >= 1){
+		for(int i = h; i < n; ++i){
+			for(int j = i; j >= h && nums[j] < nums[j-h]; j -= h){
+				swap(nums[j], nums[j-h]);
+			}
+		}
+		h = h / 3;
+	}
+}
+
 void Bubble_Sort(vector<int>& nums, int n){
 	for(int i = 0; i < n; ++i){
 		for(int j = 0; j < n - i - 1; ++j){
@@ -74,8 +89,10 @@ void Selection_Sort(vector<int>& nums, int n){
 }
 
 // 快速排序
-// 划分子序列
+// 划分子序列, 返回枢纽所在位置
 int Partition(vector<int>& nums, int left, int right){
+	int pivotkey = rand() % (right - left + 1) + left;
+	swap(nums[pivotkey], nums[left]);
 	int pivot = nums[left];
 	while(left < right){
 		while(left < right && nums[right] >= pivot) --right;
@@ -87,8 +104,24 @@ int Partition(vector<int>& nums, int left, int right){
 	return left;
 }
 
+int Random_Partition(vector<int> & nums, int left, int right){
+	int pivotkey = rand() % (right - left + 1) + left;
+	int pivot = nums[pivotkey];
+	swap(nums[pivotkey], nums[right]);
+	int i = left - 1, j = left;
+	for(; j < right; ++j){
+		if(nums[j] <= pivot){
+			//保证小于pivot 的数在左边
+			swap(nums[++i], nums[j]);
+		}
+	}
+	swap(nums[i+1], nums[right]);
+	return i+1;
+}
+
 void Quick_Sort(vector<int>& nums, int left, int right){
 	if(left < right){
+		// int pivotkey = Random_Partition(nums, left, right);
 		int pivotkey = Partition(nums, left, right);
 		Quick_Sort(nums, left, pivotkey - 1);
 		Quick_Sort(nums, pivotkey + 1, right);
@@ -102,17 +135,19 @@ void show_list(vector<int> nums){
 
 //升序排序
 int main(){
-	vector<int> nums(10, 0);
+	int n = 10;
+	vector<int> nums(n, 0);
 	srand(time(NULL)); // 随机种子
-	for (int i = 0; i < 10; i++)
-	    nums[i] = rand() % 10;
+	for (int i = 0; i < n; i++)
+	    nums[i] = rand() % 50;
 	show_list(nums);
 	cout << endl;
 	// Insertion_Sort_2(nums, nums.size());
 	// Binsertion_Sort(nums, nums.size());
+	// Shell_Sort(nums, nums.size());
 	// Bubble_Sort(nums, nums.size());
 	// Selection_Sort(nums, nums.size());
-	Quick_Sort(nums, 0, nums.size() - 1); //这里的left right为数组下标, 所以要用 nums.size()-1
+	// Quick_Sort(nums, 0, nums.size() - 1); //这里的left right为数组下标, 所以要用 nums.size()-1
 	show_list(nums);
 	return 0;
 }
