@@ -128,7 +128,31 @@ void Quick_Sort(vector<int>& nums, int left, int right){
 	}
 }
 
-void show_list(vector<int> nums){
+void Merge_Sort(vector<int>& nums, int left, int right, vector<int>& temp){
+	if(left + 1 >= right) return;
+	
+
+	//divide
+	int mid = left + right >> 1;
+	Merge_Sort(nums, left, mid, temp);
+	Merge_Sort(nums, mid, right, temp);
+
+	//conquer
+	int p = left, q = mid, i = left;
+	while(p < mid || q < right){
+		if(q >= right || (p < mid && nums[p] <= nums[q])){
+			temp[i++] = nums[p++];
+		} else {
+			temp[i++] = nums[q++];
+		}
+	}
+
+	for(i = left; i < right; ++i){
+		nums[i] = temp[i];
+	}
+}
+
+void show_list(const vector<int> nums){
 	for(int i=0; i<nums.size(); ++i) cout << nums[i] << ' ';
 }
 
@@ -137,6 +161,7 @@ void show_list(vector<int> nums){
 int main(){
 	int n = 10;
 	vector<int> nums(n, 0);
+	vector<int> temp(n);
 	srand(time(NULL)); // 随机种子
 	for (int i = 0; i < n; i++)
 	    nums[i] = rand() % 50;
@@ -148,6 +173,7 @@ int main(){
 	// Bubble_Sort(nums, nums.size());
 	// Selection_Sort(nums, nums.size());
 	// Quick_Sort(nums, 0, nums.size() - 1); //这里的left right为数组下标, 所以要用 nums.size()-1
+	Merge_Sort(nums, 0, nums.size(), temp);
 	show_list(nums);
 	return 0;
 }
