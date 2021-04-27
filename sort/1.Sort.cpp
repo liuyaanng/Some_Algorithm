@@ -130,10 +130,9 @@ void Quick_Sort(vector<int>& nums, int left, int right){
 
 void Merge_Sort(vector<int>& nums, int left, int right, vector<int>& temp){
 	if(left + 1 >= right) return;
-	
 
-	//divide
-	int mid = left + right >> 1;
+	// divide
+	int mid = right + left >> 1;
 	Merge_Sort(nums, left, mid, temp);
 	Merge_Sort(nums, mid, right, temp);
 
