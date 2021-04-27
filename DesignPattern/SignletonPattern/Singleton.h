@@ -85,7 +85,7 @@ namespace s4
 	class Singleton
 	{
 	public:
-		Singleton * getInstance(){
+		static Singleton * getInstance(){
 			return instance;
 		}
 	protected:
